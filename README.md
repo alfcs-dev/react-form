@@ -1,3 +1,22 @@
+
+
+
+#UPDATE MADE BY @hobbit1mx
+
+Hi, as I am not even close to be a experienced react front end developer, I used the coding task as a way to experiment and play around with the react library.
+I took a bit more than 3 hours, but as I mentioned this camed with a learning curve, I know there is a lot to be improved in this repo, for example, I think once I had the logic of my inputs I could start to
+separate the concerns and create splited components, simplifying the work.
+
+Thanks for considering my application.
+
+To run the project:
+
+```
+clone the repo
+npm install
+npm start
+```
+
 # F1 - smava recruitment tasks for front-end developers
 
 Hello! We are very happy to see that you have reached this challenge! The task requires some creativity, we are giving you some description, which is very close to the stuff, that we are actually working in smava.
