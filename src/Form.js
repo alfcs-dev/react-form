@@ -105,31 +105,24 @@ class Form extends Component {
     const {errors, ...form} = this.state;
     const fields = Object.keys(form);
     let isFormValid = true;
-    if (!this.state.bankAccounts.length) {
-      isFormValid = false;
-      this.setState(prevstate => {
-        let newState = Object.assign({}, prevstate);
-        newState.errors.emptyAccounts = true;
-        return newState;
-      })
-    } else {
-      this.setState(prevstate => {
-        let newState = Object.assign({}, prevstate);
-        newState.errors.emptyAccounts = false;
-        return newState;
-      })
-    }
+
+    this.setState(prevstate => {
+      const errors = Object.assign({}, prevstate.errors, {  emptyAccounts: prevstate.bankAccounts.length ? false :  true });
+      const newState = Object.assign({}, prevstate, {errors});
+      return newState;
+    });
+
     fields.forEach(field => {
-      if (!this.state[field] && field !== 'bankAccounts') {
+      if (!this.state[field] && !Array.isArray(this.state[field])) {
         this.validateField(field, {valid: false});
         isFormValid = false;
-      } else if (field === 'bankAccounts' && this.state.bankAccounts.length) {
-        this.state.bankAccounts.forEach((account, index) => {
-          let keys = Object.keys(account);
-          keys.forEach(k => {
-            if(account[k] === "" || account[k] === undefined) {
+      } else if (Array.isArray(this.state[field]) && this.state[field].length) {
+        this.state[field].forEach((keyValue, index) => {
+          let keys = Object.keys(keyValue);
+          keys.forEach(key => {
+            if(keyValue[key] === "" || keyValue[key] === undefined) {
               isFormValid = false;
-              this.validateField(k, {valid: false}, index);
+              this.validateField(key, {valid: false}, index);
             }
           })
         })
@@ -164,12 +157,15 @@ class Form extends Component {
       iban: ''
     };
     this.setState(prevState => {
-      let copy = Object.assign({}, prevState);
-      copy.bankAccounts = [...prevState.bankAccounts, newBankAccount];
-      copy.errors.iban = [...prevState.errors.iban, {hasError: false}];
-      copy.errors.bank = [...prevState.errors.bank, {hasError: false}];
-      copy.errors.emptyAccounts = false;
-      return copy;
+      const errors = Object.assign({}, prevState.errors, {
+        iban: [...prevState.errors.iban, {hasError: false}],
+        bank: [...prevState.errors.bank, {hasError: false}],
+        emptyAccounts: false
+      });
+      const newState = Object.assign({}, prevState, {
+        bankAccounts: [...prevState.bankAccounts, newBankAccount],
+      }, {errors});
+      return newState;
     });
   }
 
